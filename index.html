@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Kinh Doanh Kefir</title>
+    <link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>🥛 Kefir</h1>
+            </div>
+            <nav class="menu">
+                <button class="menu-btn active" data-section="dashboard">
+                    📊 Dashboard
+                </button>
+                <button class="menu-btn" data-section="orders">
+                    📦 Đơn Hàng
+                </button>
+                <button class="menu-btn" data-section="products">
+                    🛍️ Sản Phẩm
+                </button>
+                <button class="menu-btn" data-section="customers">
+                    👥 Khách Hàng
+                </button>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="section active">
+                <h2>Dashboard</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="total-orders">0</div>
+                        <div class="stat-label">Tổng Đơn Hàng</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="total-revenue">0đ</div>
+                        <div class="stat-label">Tổng Doanh Thu</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="total-customers">0</div>
+                        <div class="stat-label">Khách Hàng</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="total-products">0</div>
+                        <div class="stat-label">Sản Phẩm</div>
+                    </div>
+                </div>
+                <div class="recent-orders">
+                    <h3>Đơn Hàng Gần Đây</h3>
+                    <div id="recent-list"></div>
+                </div>
+            </section>
+
+            <!-- Orders Section -->
+            <section id="orders" class="section">
+                <div class="section-header">
+                    <h2>Quản Lý Đơn Hàng</h2>
+                    <button class="btn btn-primary" id="new-order-btn">+ Đơn Hàng Mới</button>
+                </div>
+                <div id="orders-list" class="orders-list"></div>
+            </section>
+
+            <!-- Products Section -->
+            <section id="products" class="section">
+                <div class="section-header">
+                    <h2>Quản Lý Sản Phẩm</h2>
+                    <button class="btn btn-primary" id="new-product-btn">+ Sản Phẩm Mới</button>
+                </div>
+                <div id="products-list" class="products-grid"></div>
+            </section>
+
+            <!-- Customers Section -->
+            <section id="customers" class="section">
+                <div class="section-header">
+                    <h2>Quản Lý Khách Hàng</h2>
+                    <button class="btn btn-primary" id="new-customer-btn">+ Khách Hàng Mới</button>
+                </div>
+                <div id="customers-list" class="customers-list"></div>
+            </section>
+        </main>
+    </div>
+
+    <!-- New Product Modal -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="product-modal-title">Sản Phẩm Mới</h3>
+                <button class="close-btn">&times;</button>
+            </div>
+            <form id="product-form">
+                <div class="form-group">
+                    <label>Tên Sản Phẩm</label>
+                    <input type="text" id="product-name" required>
+                </div>
+                <div class="form-group">
+                    <label>Giá</label>
+                    <input type="number" id="product-price" required min="0">
+                </div>
+                <div class="form-group">
+                    <label>Số Lượng</label>
+                    <input type="number" id="product-quantity" required min="0">
+                </div>
+                <div class="form-group">
+                    <label>Mô Tả</label>
+                    <textarea id="product-description"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Lưu</button>
+                    <button type="button" class="btn btn-secondary close-btn">Hủy</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- New Customer Modal -->
+    <div id="customer-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="customer-modal-title">Khách Hàng Mới</h3>
+                <button class="close-btn">&times;</button>
+            </div>
+            <form id="customer-form">
+                <div class="form-group">
+                    <label>Tên Khách Hàng</label>
+                    <input type="text" id="customer-name" required>
+                </div>
+                <div class="form-group">
+                    <label>Số Điện Thoại</label>
+                    <input type="tel" id="customer-phone" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="customer-email">
+                </div>
+                <div class="form-group">
+                    <label>Địa Chỉ</label>
+                    <textarea id="customer-address"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Lưu</button>
+                    <button type="button" class="btn btn-secondary close-btn">Hủy</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- New Order Modal -->
+    <div id="order-modal" class="modal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3 id="order-modal-title">Đơn Hàng Mới</h3>
+                <button class="close-btn">&times;</button>
+            </div>
+            <form id="order-form">
+                <div class="form-group">
+                    <label>Chọn Khách Hàng</label>
+                    <select id="order-customer" required>
+                        <option value="">-- Chọn Khách Hàng --</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Chọn Sản Phẩm</label>
+                    <div class="order-items">
+                        <div class="order-item-row">
+                            <select class="item-product" required>
+                                <option value="">-- Chọn Sản Phẩm --</option>
+                            </select>
+                            <input type="number" class="item-quantity" placeholder="SL" min="1" value="1">
+                            <input type="number" class="item-price" placeholder="Giá" min="0">
+                            <button type="button" class="btn-remove-item">❌</button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-secondary" id="add-item-btn">+ Thêm Sản Phẩm</button>
+                </div>
+                <div class="form-group">
+                    <label>Ghi Chú</label>
+                    <textarea id="order-notes"></textarea>
+                </div>
+                <div class="order-summary">
+                    <div class="summary-row">
+                        <span>Tổng Cộng:</span>
+                        <span id="order-total">0đ</span>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Lưu Đơn Hàng</button>
+                    <button type="button" class="btn btn-secondary close-btn">Hủy</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Order Detail Modal -->
+    <div id="order-detail-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Chi Tiết Đơn Hàng</h3>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div id="order-detail-content"></div>
+            <div class="form-actions">
+                <button type="button" class="btn btn-danger" id="delete-order-btn">Xóa</button>
+                <button type="button" class="btn btn-secondary close-btn">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
